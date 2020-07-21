@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sean.mapper.UserRoleTreeMapper" >
+  <resultMap id="BaseResultMap" type="com.sean.model.UserRoleTree" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="VARCHAR" />
+    <result column="rid" property="rid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, rid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_and_role
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user_and_role
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sean.model.UserRoleTree" >
+    insert into user_and_role (id, uid, rid)
+    values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{rid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sean.model.UserRoleTree" >
+    insert into user_and_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="rid != null" >
+        rid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="rid != null" >
+        #{rid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sean.model.UserRoleTree" >
+    update user_and_role
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="rid != null" >
+        rid = #{rid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sean.model.UserRoleTree" >
+    update user_and_role
+    set uid = #{uid,jdbcType=VARCHAR},
+      rid = #{rid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="findRidsByUid" parameterType="java.lang.String" resultType="java.lang.String">
+    select rid from user_and_role
+    where uid = #{uid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteUserRole" parameterType="java.lang.String">
+    delete from  user_and_role
+    where uid = #{uid,jdbcType=VARCHAR}
+    and rid = #{rid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="addUserRole" parameterType="java.lang.String">
+    insert into user_and_role (id, uid, rid)
+    values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{rid,jdbcType=VARCHAR})
+  </insert>
+</mapper>

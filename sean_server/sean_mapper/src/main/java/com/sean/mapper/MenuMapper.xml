@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sean.mapper.MenuMapper">
+    <resultMap id="BaseResultMap" type="com.sean.model.Menu">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="component" jdbcType="VARCHAR" property="component"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="iconCls" jdbcType="VARCHAR" property="iconcls"/>
+        <result column="pid" jdbcType="VARCHAR" property="pid"/>
+        <result column="enabled" jdbcType="BIT" property="enabled"/>
+    <association property="meta" javaType="com.sean.model.Meta">
+      <result column="keepAlive" property="keepAlive" jdbcType="BIT" />
+      <result column="requireAuth" property="requireAuth" jdbcType="BIT" />
+    </association>
+    </resultMap>
+  <resultMap id="Menus2" type="com.sean.model.Menu" extends="BaseResultMap">
+    <collection property="children" ofType="com.sean.model.Menu">
+      <id column="id2" property="id" jdbcType="INTEGER" />
+      <result column="url2" property="url" jdbcType="VARCHAR" />
+      <result column="path2" property="path" jdbcType="VARCHAR" />
+      <result column="component2" property="component" jdbcType="VARCHAR" />
+      <result column="name2" property="name" jdbcType="VARCHAR" />
+      <result column="iconCls2" property="iconcls" jdbcType="VARCHAR" />
+      <result column="parentId2" property="parentId" jdbcType="INTEGER" />
+      <result column="enabled2" property="enabled" jdbcType="BIT" />
+      <association property="meta" javaType="com.sean.model.Meta">
+        <result column="keepAlive2" property="keepAlive" jdbcType="BIT" />
+        <result column="requireAuth2" property="requireAuth" jdbcType="BIT" />
+      </association>
+    </collection>
+  </resultMap>
+    <sql id="Base_Column_List">
+    id, url, path, component, name, iconCls, keepAlive, requireAuth, pid, enabled
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from menu
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from menu
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.sean.model.Menu">
+    insert into menu (id, url, path, 
+      component, name, iconCls, 
+      keepAlive, requireAuth, pid, 
+      enabled)
+    values (#{id,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
+      #{component,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{iconcls,jdbcType=VARCHAR}, 
+      #{keepalive,jdbcType=BIT}, #{requireauth,jdbcType=BIT}, #{pid,jdbcType=VARCHAR}, 
+      #{enabled,jdbcType=BIT})
+  </insert>
+    <insert id="insertSelective" parameterType="com.sean.model.Menu">
+        insert into menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="path != null">
+                path,
+            </if>
+            <if test="component != null">
+                component,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="iconcls != null">
+                iconCls,
+            </if>
+            <if test="keepalive != null">
+                keepAlive,
+            </if>
+            <if test="requireauth != null">
+                requireAuth,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="enabled != null">
+                enabled,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="component != null">
+                #{component,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="iconcls != null">
+                #{iconcls,jdbcType=VARCHAR},
+            </if>
+            <if test="keepalive != null">
+                #{keepalive,jdbcType=BIT},
+            </if>
+            <if test="requireauth != null">
+                #{requireauth,jdbcType=BIT},
+            </if>
+            <if test="pid != null">
+                #{pid,jdbcType=VARCHAR},
+            </if>
+            <if test="enabled != null">
+                #{enabled,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sean.model.Menu">
+        update menu
+        <set>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                path = #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="component != null">
+                component = #{component,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="iconcls != null">
+                iconCls = #{iconcls,jdbcType=VARCHAR},
+            </if>
+            <if test="keepalive != null">
+                keepAlive = #{keepalive,jdbcType=BIT},
+            </if>
+            <if test="requireauth != null">
+                requireAuth = #{requireauth,jdbcType=BIT},
+            </if>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=VARCHAR},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled,jdbcType=BIT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sean.model.Menu">
+    update menu
+    set url = #{url,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR},
+      component = #{component,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      iconCls = #{iconcls,jdbcType=VARCHAR},
+      keepAlive = #{keepalive,jdbcType=BIT},
+      requireAuth = #{requireauth,jdbcType=BIT},
+      pid = #{pid,jdbcType=VARCHAR},
+      enabled = #{enabled,jdbcType=BIT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <select id="getMenusByUserId" resultMap="Menus2">
+    SELECT DISTINCT
+	m1.*, m2.`id` AS id2,
+	m2.`component` AS component2,
+	m2.`enabled` AS enabled2,
+	m2.`iconCls` AS iconCls2,
+	m2.`keepAlive` AS keepAlive2,
+	m2.`name` AS name2,
+	m2.`pid` AS pid,
+	m2.`requireAuth` AS requireAuth2,
+	m2.`path` AS path2
+FROM
+	menu m1,
+	menu m2,
+	user_and_role ur,
+	role_and_menu rm
+WHERE
+	m1.`id` = m2.`pid`
+AND ur.`uid` = #{uid,jdbcType=VARCHAR}
+and ur.`rid`=rm.`rid`
+and rm.`mid`=m2.`id`
+and m2.`enabled`=true
+order by m1.`id`,m2.`id`
+  </select>
+
+    <select id="selectByPid" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from menu
+        where pid = #{pid,jdbcType=VARCHAR}
+    </select>
+    <select id="findMenuAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from menu
+    </select>
+
+    <select id="findMenusByRid" parameterType="java.lang.String" resultType="java.lang.String">
+        select
+        mid
+        from role_and_menu
+        where rid =  #{rid,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insertMenu" parameterType="com.sean.model.MenuTemplate">
+        insert into menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="path != null">
+                path,
+            </if>
+            <if test="component != null">
+                component,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="iconcls != null">
+                iconCls,
+            </if>
+            <if test="keepalive != null">
+                keepAlive,
+            </if>
+            <if test="requireauth != null">
+                requireAuth,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="enabled != null">
+                enabled,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="component != null">
+                #{component,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="iconcls != null">
+                #{iconcls,jdbcType=VARCHAR},
+            </if>
+            <if test="keepalive != null">
+                #{keepalive,jdbcType=BIT},
+            </if>
+            <if test="requireauth != null">
+                #{requireauth,jdbcType=BIT},
+            </if>
+            <if test="pid != null">
+                #{pid,jdbcType=VARCHAR},
+            </if>
+            <if test="enabled != null">
+                #{enabled,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+</mapper>

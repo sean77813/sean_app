@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sean.mapper.RoleMenuTreeMapper" >
+  <resultMap id="BaseResultMap" type="com.sean.model.RoleMenuTree" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="rid" property="rid" jdbcType="VARCHAR" />
+    <result column="mid" property="mid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, rid, mid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from role_and_menu
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from role_and_menu
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sean.model.RoleMenuTree" >
+    insert into role_and_menu (id, rid, mid)
+    values (#{id,jdbcType=VARCHAR}, #{rid,jdbcType=VARCHAR}, #{mid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sean.model.RoleMenuTree" >
+    insert into role_and_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="rid != null" >
+        rid,
+      </if>
+      <if test="mid != null" >
+        mid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="rid != null" >
+        #{rid,jdbcType=VARCHAR},
+      </if>
+      <if test="mid != null" >
+        #{mid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sean.model.RoleMenuTree" >
+    update role_and_menu
+    <set >
+      <if test="rid != null" >
+        rid = #{rid,jdbcType=VARCHAR},
+      </if>
+      <if test="mid != null" >
+        mid = #{mid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sean.model.RoleMenuTree" >
+    update role_and_menu
+    set rid = #{rid,jdbcType=VARCHAR},
+      mid = #{mid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <delete id="deleteRoleMenu" parameterType="java.lang.String">
+    delete from
+    role_and_menu
+    where rid =  #{rid,jdbcType=VARCHAR}
+    and mid =  #{mid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="addRoleMenu" parameterType="java.lang.String">
+    insert into role_and_menu (id, rid, mid)
+    values (#{id,jdbcType=VARCHAR}, #{rid,jdbcType=VARCHAR}, #{mid,jdbcType=VARCHAR})
+  </insert>
+</mapper>
